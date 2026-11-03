@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, BookOpen, HelpCircle, LogOut, Menu, X, UserCircle } from "lucide-react";
+import { LayoutDashboard, Users, BookOpen, HelpCircle, LogOut, Menu, X, UserCircle, Film } from "lucide-react";
 import { useState } from "react";
 import { useApp } from "../context/AppContext"
 const links = [
@@ -7,6 +7,7 @@ const links = [
   { to: "/enseignant/eleves", label: "Élèves", icon: Users },
   { to: "/enseignant/histoires", label: "Histoires", icon: BookOpen },
   { to: "/enseignant/evaluations", label: "Évaluations", icon: HelpCircle },
+  { to: "/enseignant/videos", label: "Vidéos", icon: Film },
   { to: "/enseignant/profil", label: "Mon profil", icon: UserCircle },
 ];
 

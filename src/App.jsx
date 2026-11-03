@@ -15,6 +15,7 @@ import Students from "./pages/teacher/Students";
 import Stories from "./pages/teacher/Stories";
 import Quizzes from "./pages/teacher/Quizzes";
 import TeacherProfile from "./pages/teacher/Profile";
+import Videos from "./pages/shared/Videos";
 
 export default function App() {
   return (
@@ -65,6 +66,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/eleve/videos"
+            element={
+              <ProtectedRoute role="eleve">
+                <Videos />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/enseignant/tableau-de-bord"
@@ -103,6 +112,14 @@ export default function App() {
             element={
               <ProtectedRoute role="enseignant">
                 <TeacherProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/enseignant/videos"
+            element={
+              <ProtectedRoute role="enseignant">
+                <Videos />
               </ProtectedRoute>
             }
           />

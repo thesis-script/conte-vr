@@ -1,11 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpenText, User } from "lucide-react";
+import { Home, BookOpenText, User, Film } from "lucide-react";
 
 export default function MobileTabBar() {
   const location = useLocation();
   const links = [
     { to: "/eleve/accueil", label: "Accueil", icon: Home },
     { to: "/eleve/histoires", label: "Histoires", icon: BookOpenText },
+    { to: "/eleve/videos", label: "Vidéos", icon: Film },
     { to: "/eleve/profil", label: "Profil", icon: User },
   ];
   return (

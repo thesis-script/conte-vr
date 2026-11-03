@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { BookOpenText, User, LogOut, Home, LogIn, Sparkles } from "lucide-react";
+import { BookOpenText, User, LogOut, Home, LogIn, Sparkles, Film } from "lucide-react";
 import { useApp } from "../context/AppContext";
 
 export default function StudentNavbar() {
@@ -10,6 +10,7 @@ export default function StudentNavbar() {
   const links = [
     { to: "/eleve/accueil", label: "Accueil", icon: Home },
     { to: "/eleve/histoires", label: "Histoires", icon: BookOpenText },
+    { to: "/eleve/videos", label: "Vidéos", icon: Film },
     { to: "/eleve/profil", label: "Profil", icon: User },
   ];
 

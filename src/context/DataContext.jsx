@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { seedStories, seedQuizzes, seedStudents, seedTeacherProfile } from "../data/storyData";
+import { deleteStoredVideo, listStoredVideos, readStoredVideo, saveStoredVideo } from "../data/videoStorage";
 
 const DataContext = createContext(null);
 
@@ -33,6 +34,27 @@ export function DataProvider({ children }) {
   const [teacherProfile, setTeacherProfile] = useState(() =>
     loadOrSeed(KEYS.teacherProfile, seedTeacherProfile)
   );
+  const [videos, setVideos] = useState([]);
+  const [videosLoading, setVideosLoading] = useState(true);
+  const [videosError, setVideosError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    listStoredVideos()
+      .then((storedVideos) => {
+        if (active) setVideos(storedVideos);
+      })
+      .catch((error) => {
+        console.error("Unable to load videos from browser storage.", error);
+        if (active) setVideosError("Impossible de charger les vidéos enregistrées sur cet appareil.");
+      })
+      .finally(() => {
+        if (active) setVideosLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(KEYS.stories, JSON.stringify(stories));
@@ -121,6 +143,19 @@ export function DataProvider({ children }) {
     setTeacherProfile((p) => ({ ...p, ...patch }));
   }, []);
 
+  const addVideo = useCallback(async (file, details) => {
+    const video = await saveStoredVideo(file, details);
+    setVideos((list) => [video, ...list]);
+    return video;
+  }, []);
+
+  const deleteVideo = useCallback(async (id) => {
+    await deleteStoredVideo(id);
+    setVideos((list) => list.filter((video) => video.id !== id));
+  }, []);
+
+  const getVideoFile = useCallback((id) => readStoredVideo(id), []);
+
   return (
     <DataContext.Provider
       value={{
@@ -138,6 +173,12 @@ export function DataProvider({ children }) {
         deleteStudent,
         teacherProfile,
         updateTeacherProfile,
+        videos,
+        videosLoading,
+        videosError,
+        addVideo,
+        deleteVideo,
+        getVideoFile,
       }}
     >
       {children}
