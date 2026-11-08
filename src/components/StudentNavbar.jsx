@@ -1,11 +1,17 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { BookOpenText, User, LogOut, Home, LogIn, Sparkles, Film } from "lucide-react";
+import { createPortal } from "react-dom";
+import { useState } from "react";
+import { BookOpenText, User, LogOut, Home, LogIn, Sparkles, Film, Headset, X } from "lucide-react";
 import { useApp } from "../context/AppContext";
+import { useData } from "../context/DataContext";
 
 export default function StudentNavbar() {
   const { user, logout } = useApp();
+  const { stories } = useData();
   const location = useLocation();
   const navigate = useNavigate();
+  const [showImmersiveMode, setShowImmersiveMode] = useState(false);
+  const firstAvailableStory = stories.find((story) => story.status === "Publié" && story.scenes.length > 0);
 
   const links = [
     { to: "/eleve/accueil", label: "Accueil", icon: Home },
@@ -47,6 +53,15 @@ export default function StudentNavbar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
+              <button
+                type="button"
+                onClick={() => setShowImmersiveMode(true)}
+                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-lavender to-royal px-3 py-2 text-sm font-semibold text-cream hover:opacity-90 transition-opacity"
+                aria-label="Ouvrir le mode immersif"
+              >
+                <Headset size={16} />
+                <span className="hidden sm:inline">Entrer en VR</span>
+              </button>
               <span className="hidden sm:flex items-center gap-1.5 text-sm text-navy/60">
                 <Sparkles size={14} className="text-terracotta" />
                 Bonjour, <span className="text-terracotta font-medium">{user.name}</span>
@@ -74,6 +89,33 @@ export default function StudentNavbar() {
           )}
         </div>
       </div>
+      {showImmersiveMode && createPortal(
+        <div className="fixed inset-0 z-[100] h-screen h-[100dvh] w-screen overflow-hidden bg-navy">
+          <img src="/hero.jpg" alt="Expérience immersive ConteVR" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/10 to-transparent" />
+          <button
+            type="button"
+            onClick={() => setShowImmersiveMode(false)}
+            className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-navy hover:bg-white/90 transition-colors"
+            aria-label="Fermer le mode immersif"
+          >
+            <X size={20} />
+          </button>
+          <div className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-4 px-6 text-center">
+            <p className="font-display text-2xl md:text-3xl text-cream">
+              Prêt(e) à entrer dans le conte ?
+            </p>
+            <Link
+              to={firstAvailableStory ? `/eleve/histoire/${firstAvailableStory.id}` : "/eleve/histoires"}
+              onClick={() => setShowImmersiveMode(false)}
+              className="inline-flex items-center justify-center gap-2 font-semibold rounded-full px-8 py-3.5 text-sm bg-gradient-to-r from-lavender to-royal text-cream shadow-glow hover:opacity-90 transition-opacity"
+            >
+              {firstAvailableStory ? "Commencer l'expérience" : "Découvrir les histoires"}
+            </Link>
+          </div>
+        </div>,
+        document.body
+      )}
     </header>
   );
 }
