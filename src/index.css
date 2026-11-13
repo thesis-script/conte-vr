@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #FBF9F6;
+  color: #1E1B3C;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #E5BD9C;
+  color: #1E1B3C;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F3ECE4;
+}
+::-webkit-scrollbar-thumb {
+  background: #B983B5;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #815A9E;
+}
+
+:focus-visible {
+  outline: 2px solid #C27D67;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.bg-stars {
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, rgba(232,233,233,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 90px 80px, rgba(232,233,233,0.4), transparent),
+    radial-gradient(1px 1px at 150px 40px, rgba(229,189,156,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 200px 120px, rgba(232,233,233,0.5), transparent),
+    radial-gradient(1px 1px at 260px 60px, rgba(185,131,181,0.5), transparent);
+  background-repeat: repeat;
+  background-size: 280px 160px;
+}
