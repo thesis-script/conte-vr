@@ -220,7 +220,7 @@ export default function VideoPlayer({ title, videoUrl, onClose }) {
           <button
             type="button"
             onClick={enterVr}
-            disabled={!vrSupported || startingVr}
+            disabled={startingVr}
             className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-royal to-lavender text-white disabled:opacity-45 disabled:cursor-not-allowed"
           >
             {startingVr ? <LoaderCircle size={16} className="animate-spin" /> : <Headset size={16} />}
